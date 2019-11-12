@@ -1,0 +1,108 @@
+/*you should enter the array of your path in the array a and this program will generate the optimized path to solve maze quickly
+ *code is easy to understand and i am working on a lfr based maze solver with arduino so i will share soon the code and full details of it
+ */
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+char a[] ={'S','B','L','L','S','B','L','B','L','L','B','L','S','S','L','B','L','L','B','S','L','L','B','L','B','S','L','L','S','B','L','L','S','L','B','L','B','S','L','L','B','L','B','L','B','L','L','S','S','B','L','S','L','B','S','B','L','L','L','L','B','S','B','L','L','L','B','L','L','B','L','L','B','L','L','B','L'};
+//char a[]={'L','S','L','B','L','B','S','L','L','B','L','B','L','B','L','L','S'};
+//char a[]={'L', 'L', 'L', 'L', 'B', 'L', 'L', 'B', 'L', 'B', 'L', 'L', 'L', 'B', 'S', 'B', 'L', 'L', 'B', 'S', 'L', 'L', 'B', 'L', 'L', 'L', 'L'};
+char b[1];
+int k=0,count=0;
+int lena = 0;
+char top=' ';
+
+///*
+
+char shorting(int i)
+{
+    if((a[i - 2] == 'L' && a[i] == 'R') || (a[i - 2] == 'R' && a[i]=='L'))
+        return 'B';
+     if((a[i - 2] == 'L' && a[i] == 'S') || (a[i - 2] == 'S'&& a[i]=='L'))
+        return 'R';
+     if(a[i - 2] == 'S' && a[i] == 'S')
+        return 'B';
+     if(a[i - 2] == 'L' && a[i] == 'L')
+        return 'S';
+     else
+      {
+          cout<<"\nerror occured!!!\n";
+          exit(-1);
+          
+      }
+}
+//*/
+void print(char array[],int n)
+{
+    cout<<"\n";
+    for(int i=0;i<n;i++)
+    {
+      if(array[i]!=' ')
+      cout<<array[i];
+    }
+    cout<<' '<<strlen(array)-1<<"\n";
+}
+void copy(char a[],char b[],int n)
+{
+    int j=0;
+    for(int i=0;i<n+1;)
+    {
+        if(a[i]!='D')
+        {
+            b[j]=a[i];
+            j+=1;
+            i+=1;
+        }
+        else
+        {
+            i+=1;
+        }
+        
+        
+    }
+}
+
+void shortalgo(int i)
+{  
+    for(i=0;i<lena;i++)
+   {
+       if(a[i-1]=='B')
+       {
+           b[0]=shorting(i);
+           a[i-2]='D';
+           a[i-1]='D';
+           a[i]=b[0];
+           b[0]=' ';
+           count+=1;
+           
+           break;
+       }
+   }
+   copy(a,a,lena);
+   print(a,lena);
+}
+void shortdata()
+{
+    count =0;
+   lena= strlen(a);
+   for(int i=0;i<lena;i++)
+   {
+   while(a[i]=='B')
+   {
+   for(int j=0;j<lena;j++)
+   {
+      if ( a[j-1]=='B')
+       shortalgo(j-1);
+   }
+      cout<<"\t count is:"<<count;
+    i=0;
+   }
+   }
+}
+
+int main()
+{  
+   shortdata();
+    return 0;
+}
